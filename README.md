@@ -29,7 +29,8 @@ claude plugins install feature-dev
 claude plugins install superpowers
 
 # issue-driven-dev（GitHub Issue 驅動開發）— 選用
-# 來源：PsychQuant 自訂 plugin
+# 來源：PsychQuant 自訂 plugin（安裝前請確認 repo 內容可信）
+# ⚠️ Supply chain 注意：此 URL 指向 mutable HEAD，建議 pin 到特定 tag
 claude plugins add https://github.com/PsychQuant/psychquant-claude-plugins.git
 claude plugins install issue-driven-dev
 
@@ -185,6 +186,22 @@ cp -r path/to/sdd-starter/.claude/rules/swift .claude/rules/swift
 |--------|------|--------|
 | **issue-driven-dev** | GitHub Issue 驅動開發（idd-issue, idd-diagnose, idd-implement, idd-verify, idd-close） | 選用 |
 | **che-apple-dev** | Xcode build/deploy、iPad/iPhone crash debug、device 管理 | Apple 平台才需要 |
+
+## 測試
+
+### E2E Tests
+
+驗證 shell script 安全性與輸入驗證：
+
+```bash
+bash tests/e2e/run.sh
+```
+
+測試範圍：
+- **SPECIFY_FEATURE 驗證** — 特殊字元（injection、command substitution、path traversal）被正確拒絕
+- **create-new-feature.sh** — 輸入不被 shell 展開、空白輸入被拒絕
+
+新增測試請在 `tests/e2e/` 建立 `test_*.sh` 檔案，`run.sh` 會自動掃描執行。
 
 ## 自訂
 

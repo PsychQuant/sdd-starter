@@ -1,19 +1,25 @@
 {
   "permissions": {
     "allow": [
-      "Bash(gh issue create *)",
-      "Bash(gh issue close *)",
-      "Bash(gh issue edit *)",
       "Bash(gh issue list *)",
       "Bash(gh issue view *)",
-      "Bash(gh pr *)",
+      "Bash(gh pr list *)",
+      "Bash(gh pr view *)",
       "Bash(git rev-parse *)",
       "Bash(git log *)",
       "Bash(git diff *)",
       "Bash(.specify/scripts/bash/setup-plan.sh --json)",
-      "Bash(.specify/scripts/bash/check-prerequisites.sh *)",
-      "Bash(.specify/scripts/bash/update-agent-context.sh *)",
-      "Bash(.specify/scripts/bash/create-new-feature.sh *)"
+      "Bash(.specify/scripts/bash/check-prerequisites.sh --json)",
+      "Bash(.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks)",
+      "Bash(.specify/scripts/bash/check-prerequisites.sh --paths-only)",
+      "Bash(.specify/scripts/bash/check-prerequisites.sh --json --paths-only)",
+      "Bash(.specify/scripts/bash/update-agent-context.sh)",
+      "Bash(.specify/scripts/bash/update-agent-context.sh claude)",
+      "Bash(.specify/scripts/bash/update-agent-context.sh gemini)",
+      "Bash(.specify/scripts/bash/update-agent-context.sh copilot)",
+      "Bash(.specify/scripts/bash/update-agent-context.sh cursor-agent)",
+      "Bash(.specify/scripts/bash/update-agent-context.sh codex)",
+      "Bash(.specify/scripts/bash/create-new-feature.sh * --json *)"
     ]
   }
 }

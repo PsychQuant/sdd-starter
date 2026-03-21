@@ -45,11 +45,12 @@ You **MUST** consider the user input before proceeding (if not empty).
     ```
     ## Extension Hooks
 
-    **Automatic Pre-Hook**: {extension}
-    Executing: `/{command}`
-    EXECUTE_COMMAND: {command}
-    
-    Wait for the result of the hook command before proceeding to the Outline.
+    **Mandatory Pre-Hook**: {extension}
+    Command: `/{command}`
+    Description: {description}
+
+    ⚠️ This pre-hook is mandatory. Please confirm execution before proceeding.
+    To execute: `/{command}`
     ```
 - If no hooks are registered or `.specify/extensions.yml` does not exist, skip silently
 
@@ -117,9 +118,12 @@ You **MUST** consider the user input before proceeding (if not empty).
        ```
        ## Extension Hooks
 
-       **Automatic Hook**: {extension}
-       Executing: `/{command}`
-       EXECUTE_COMMAND: {command}
+       **Mandatory Hook**: {extension}
+       Command: `/{command}`
+       Description: {description}
+
+       ⚠️ This hook is mandatory. Please confirm execution.
+       To execute: `/{command}`
        ```
    - If no hooks are registered or `.specify/extensions.yml` does not exist, skip silently
 
