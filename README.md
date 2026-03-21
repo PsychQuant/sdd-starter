@@ -89,6 +89,32 @@ claude plugins install issue-driven-dev
 ## 目錄結構
 
 ```
+.claude/
+├── commands/               # speckit 指令定義（SDD 流程核心）
+│   ├── speckit.specify.md
+│   ├── speckit.clarify.md
+│   ├── speckit.plan.md
+│   ├── speckit.tasks.md
+│   ├── speckit.implement.md
+│   ├── speckit.constitution.md
+│   ├── speckit.checklist.md
+│   ├── speckit.analyze.md
+│   └── speckit.taskstoissues.md
+├── rules/
+│   ├── common/             # 通用開發規範（適用所有語言）
+│   │   ├── coding-style.md
+│   │   ├── git-workflow.md
+│   │   ├── testing.md
+│   │   ├── performance.md
+│   │   ├── patterns.md
+│   │   ├── hooks.md
+│   │   ├── agents.md
+│   │   ├── security.md
+│   │   └── development-workflow.md
+│   └── README.md           # 說明如何新增語言特定規則
+├── settings.json           # 預設 permissions（speckit 腳本 + GitHub CLI）
+└── settings.local.json     # 專案特定 permissions（不含在 template，自行建立）
+
 .specify/
 ├── scripts/bash/           # 自動化腳本（不需修改）
 │   ├── create-new-feature.sh
@@ -117,6 +143,18 @@ specs/                      # Feature 規格目錄（自動建立）
 
 CLAUDE.md                   # Claude Code 專案指引（update-agent-context 維護）
 ```
+
+### 語言特定規則（選用安裝）
+
+從 [rules/ README](.claude/rules/README.md) 查看支援的語言。安裝方式：
+
+```bash
+# 從 https://github.com/PsychQuant/sdd-starter 複製語言目錄
+# 例如 Swift 專案：
+cp -r path/to/sdd-starter/.claude/rules/swift .claude/rules/swift
+```
+
+支援語言：Swift, Python, Go, TypeScript, Rust, Kotlin, Java, C++, C#, PHP, Perl
 
 ## 必要 Plugins
 
