@@ -16,7 +16,12 @@ get_repo_root() {
 get_current_branch() {
     # First check if SPECIFY_FEATURE environment variable is set
     if [[ -n "${SPECIFY_FEATURE:-}" ]]; then
-        echo "$SPECIFY_FEATURE"
+        # Validate: must match expected branch name pattern (#1)
+        if [[ ! "$SPECIFY_FEATURE" =~ ^[a-zA-Z0-9][a-zA-Z0-9_/.-]{0,242}$ ]]; then
+            echo "ERROR: SPECIFY_FEATURE contains invalid characters: $SPECIFY_FEATURE" >&2
+            return 1
+        fi
+        printf '%s' "$SPECIFY_FEATURE"
         return
     fi
 
@@ -171,9 +176,16 @@ json_escape() {
     s="${s//$'\r'/\\r}"
     s="${s//$'\b'/\\b}"
     s="${s//$'\f'/\\f}"
-    # Strip remaining control characters (U+0000–U+001F) not individually escaped above
-    s=$(printf '%s' "$s" | tr -d '\000-\007\013\016-\037')
+    # Strip control characters U+0001–U+0007, U+000B, U+000E–U+001F.
+    # Note: bash variables cannot hold NUL (U+0000), so it is absent by definition.
+    s=$(printf '%s' "$s" | tr -d '\001-\007\013\016-\037')
     printf '%s' "$s"
+}
+
+# Escape a string for safe use as a sed replacement (RHS of s|...|...|).
+# Handles backslash, ampersand (&), and the pipe delimiter (|). (#2)
+sed_escape_replacement() {
+    printf '%s' "$1" | sed 's/[\\&|/]/\\&/g'
 }
 
 check_file() { [[ -f "$1" ]] && echo "  ✓ $2" || echo "  ✗ $2"; }

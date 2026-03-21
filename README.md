@@ -29,7 +29,8 @@ claude plugins install feature-dev
 claude plugins install superpowers
 
 # issue-driven-dev（GitHub Issue 驅動開發）— 選用
-# 來源：PsychQuant 自訂 plugin
+# 來源：PsychQuant 自訂 plugin（安裝前請確認 repo 內容可信）
+# ⚠️ Supply chain 注意：此 URL 指向 mutable HEAD，建議 pin 到特定 tag
 claude plugins add https://github.com/PsychQuant/psychquant-claude-plugins.git
 claude plugins install issue-driven-dev
 

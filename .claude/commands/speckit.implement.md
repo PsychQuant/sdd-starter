@@ -36,11 +36,12 @@ You **MUST** consider the user input before proceeding (if not empty).
     ```
     ## Extension Hooks
 
-    **Automatic Pre-Hook**: {extension}
-    Executing: `/{command}`
-    EXECUTE_COMMAND: {command}
-    
-    Wait for the result of the hook command before proceeding to the Outline.
+    **Mandatory Pre-Hook**: {extension}
+    Command: `/{command}`
+    Description: {description}
+
+    ⚠️ This pre-hook is mandatory. Please confirm execution before proceeding.
+    To execute: `/{command}`
     ```
 - If no hooks are registered or `.specify/extensions.yml` does not exist, skip silently
 
@@ -110,7 +111,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 
    **Common Patterns by Technology** (from plan.md tech stack):
    - **Node.js/JavaScript/TypeScript**: `node_modules/`, `dist/`, `build/`, `*.log`, `.env*`
-   - **Python**: `__pycache__/`, `*.pyc`, `.venv/`, `venv/`, `dist/`, `*.egg-info/`
+   - **Python**: `__pycache__/`, `*.pyc`, `.venv/`, `venv/`, `dist/`, `*.egg-info/`, `.env*`
    - **Java**: `target/`, `*.class`, `*.jar`, `.gradle/`, `build/`
    - **C#/.NET**: `bin/`, `obj/`, `*.user`, `*.suo`, `packages/`
    - **Go**: `*.exe`, `*.test`, `vendor/`, `*.out`
@@ -262,8 +263,11 @@ Note: This command assumes a complete task breakdown exists in tasks.md. If task
         ```
         ## Extension Hooks
 
-        **Automatic Hook**: {extension}
-        Executing: `/{command}`
-        EXECUTE_COMMAND: {command}
+        **Mandatory Hook**: {extension}
+        Command: `/{command}`
+        Description: {description}
+
+        ⚠️ This hook is mandatory. Please confirm execution.
+        To execute: `/{command}`
         ```
     - If no hooks are registered or `.specify/extensions.yml` does not exist, skip silently
