@@ -29,7 +29,13 @@ claude plugins install feature-dev
 claude plugins install superpowers
 
 # issue-driven-dev（GitHub Issue 驅動開發）— 選用
+# 來源：PsychQuant 自訂 plugin
+claude plugins add https://github.com/PsychQuant/psychquant-claude-plugins.git
 claude plugins install issue-driven-dev
+
+# che-apple-dev（Xcode build/deploy/crash debug）— Apple 平台專案才需要
+# 來源：PsychQuant 自訂 plugin（同上 repo，安裝一次即可）
+claude plugins install che-apple-dev
 ```
 
 ### 3. 初始化專案憲法
@@ -158,12 +164,27 @@ cp -r path/to/sdd-starter/.claude/rules/swift .claude/rules/swift
 
 ## 必要 Plugins
 
+### 通用 Plugins
+
+| Plugin | 來源 | 用途 | 必要性 |
+|--------|------|------|--------|
+| **feature-dev** | official | code-explorer, code-architect, code-reviewer agents | 必要 |
+| **superpowers** | official | brainstorming, TDD, debugging, finishing branch | 建議 |
+| **commit-commands** | official | commit, push, PR 快捷指令 | 建議 |
+| **context7** | official | 查詢第三方套件文件 | 建議 |
+| **pr-review-toolkit** | official | PR 多角度審查 | 選用 |
+| **code-review** | official | 單次 PR code review | 選用 |
+| **claude-md-management** | official | CLAUDE.md 維護與審計 | 選用 |
+| **security-guidance** | official | 安全掃描 | 選用 |
+
+### PsychQuant 自訂 Plugins
+
+需先加入 registry：`claude plugins add https://github.com/PsychQuant/psychquant-claude-plugins.git`
+
 | Plugin | 用途 | 必要性 |
 |--------|------|--------|
-| **feature-dev** | code-explorer, code-architect, code-reviewer agents | 必要 |
-| **superpowers** | brainstorming, TDD, debugging, finishing branch | 建議 |
-| **issue-driven-dev** | GitHub Issue 驅動開發 | 選用 |
-| **pr-review-toolkit** | PR code review, comment analysis | 選用 |
+| **issue-driven-dev** | GitHub Issue 驅動開發（idd-issue, idd-diagnose, idd-implement, idd-verify, idd-close） | 選用 |
+| **che-apple-dev** | Xcode build/deploy、iPad/iPhone crash debug、device 管理 | Apple 平台才需要 |
 
 ## 自訂
 
