@@ -44,13 +44,18 @@ src/
 - 修正 bug 獨立 commit：`fix: [描述]`
 
 ### feature-dev Plugin 整合（強制執行）
-**以下三步 MUST NOT 跳過，無論 Phase 多簡單：**
+**以下三步 MUST NOT 跳過，無論 Phase 多簡單（包含 Setup / greenfield Phase）：**
 
 1. **Phase 開始前**：輸出 `🔍 [feature-dev] Exploring codebase for Phase N...` 然後啟動 `feature-dev:code-explorer` agent
+   - Greenfield: 確認根目錄無衝突檔案、驗證 .gitignore
 2. **寫 code 前**：輸出 `📐 [feature-dev] Reviewing architecture for Phase N...` 然後啟動 `feature-dev:code-architect` agent
+   - Greenfield: 確認專案結構符合 plan.md 設計
 3. **Phase commit 前**：輸出 `🔎 [feature-dev] Reviewing Phase N code...` 然後啟動 `feature-dev:code-reviewer` agent
 
-如果任何步驟被跳過，commit message MUST 包含 `⚠️ SKIPPED: [step name] — [reason]`
+**跳過規則**：
+- 僅限使用者明確指示才可跳過。AI 判斷「太簡單」不是合法理由。
+- 經使用者同意跳過：commit message MUST 包含 `⚠️ SKIPPED: [step] — user requested`
+- **Pre-commit gate check**：commit 前必須驗證三步皆已執行，缺少則 STOP 補執行
 
 ### Issue-Driven Development 整合
 - **每個 Phase 一個 GitHub Issue**（不是每個 task 一個），內含 task checklist + 驗收標準

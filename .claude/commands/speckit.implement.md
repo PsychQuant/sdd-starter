@@ -45,6 +45,29 @@ You **MUST** consider the user input before proceeding (if not empty).
     ```
 - If no hooks are registered or `.specify/extensions.yml` does not exist, skip silently
 
+## ⚠️ CRITICAL: feature-dev 三步強制流程
+
+**每個 Phase（包含 Setup / greenfield Phase）執行前後，必須完成以下三步。無例外。**
+
+### Pre-Implementation（每個 Phase 開始前）
+1. `🔍 code-explorer` — 探索 codebase，確認無衝突檔案、驗證既有結構
+2. `📐 code-architect` — 確認即將建立/修改的結構符合 plan.md 設計
+
+### Post-Implementation（每個 Phase commit 前）
+3. `🔎 code-reviewer` — 審查本 Phase 所有變更
+
+### Greenfield Phase（如 Setup）的 explorer/architect 用途
+- **code-explorer**: 確認專案根目錄無既有衝突檔案、驗證 .gitignore 設定、檢查目錄結構
+- **code-architect**: 確認即將建立的專案結構符合 plan.md 的設計、驗證技術選型
+
+### 跳過規則
+- **僅限使用者明確指示跳過**（例如「這個 Phase 跳過 explorer」）才可跳過
+- AI 自行判斷「太簡單不需要」**不是合法跳過理由**
+- 若經使用者同意跳過：commit message MUST 包含 `⚠️ SKIPPED: [step] — user requested`
+- 若未經使用者同意就跳過：這是規則違反，不是合法 skip
+
+---
+
 ## Outline
 
 1. Run `.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
@@ -157,14 +180,19 @@ You **MUST** consider the user input before proceeding (if not empty).
 7. **Pre-implementation analysis (feature-dev integration — MANDATORY per Phase)**:
    **This step MUST be executed BEFORE each Phase, not just once at the start.**
 
-   For each Phase, before writing any code:
+   For each Phase (including Setup/greenfield), before writing any code:
+
    a. Output: `🔍 [feature-dev] Exploring codebase for Phase N — [Phase Name]...`
-      Then launch `feature-dev:code-explorer` agent targeting the specific files this Phase will modify/create.
+      Then launch `feature-dev:code-explorer` agent.
+      - Greenfield: 確認根目錄無衝突檔案、驗證 .gitignore
+      - Existing code: 探索即將修改/建立的檔案
    b. Output: `📐 [feature-dev] Reviewing architecture for Phase N — [Phase Name]...`
-      Then launch `feature-dev:code-architect` agent to confirm the approach for this Phase.
+      Then launch `feature-dev:code-architect` agent.
+      - Greenfield: 確認專案結構符合 plan.md 設計
+      - Existing code: 確認修改方向符合架構
    c. If either agent identifies issues, resolve them before writing code.
 
-   **If skipped**: The Phase commit message MUST include `⚠️ SKIPPED: [explorer|architect] — [reason]`.
+   **If code-explorer or code-architect was NOT launched and the user did NOT explicitly approve skipping: STOP. Do NOT proceed with implementation.**
 
 7. Execute implementation following the task plan:
    - **Phase-by-phase execution**: Complete each phase before moving to the next
@@ -185,7 +213,13 @@ You **MUST** consider the user input before proceeding (if not empty).
 
    a. **Mark tasks complete**: Update tasks.md — mark all completed tasks as `[X]`
    b. **Code review (MANDATORY)**: Output `🔎 [feature-dev] Reviewing Phase N code...` then launch `feature-dev:code-reviewer` agent to review ALL files changed/created in this phase. Fix any high-priority issues before proceeding. If skipped, commit message MUST include `⚠️ SKIPPED: code-reviewer — [reason]`.
-   c. **Git commit**: Stage and commit all changes for this phase. **Commit format depends on IDD mode**:
+   c. **Pre-commit gate check (MANDATORY)**:
+      Before creating the commit, verify ALL three feature-dev steps were executed for this Phase:
+      - [ ] `🔍 code-explorer` was launched (search conversation for the output marker)
+      - [ ] `📐 code-architect` was launched (search conversation for the output marker)
+      - [ ] `🔎 code-reviewer` was launched (this step b above)
+      If any step is missing and no user-approved skip exists: **STOP and execute the missing step(s) before committing.**
+   d. **Git commit**: Stage and commit all changes for this phase. **Commit format depends on IDD mode**:
 
       **If `iddEnabled = true`** (Phase GitHub Issue exists):
       ```
@@ -207,12 +241,12 @@ You **MUST** consider the user input before proceeding (if not empty).
       Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
       ```
 
-   d. **Update Phase issue checklist (if IDD enabled)**:
+   e. **Update Phase issue checklist (if IDD enabled)**:
       Before closing, update the Phase issue's task checklist to reflect completed tasks:
       `gh issue edit #XX --repo OWNER/REPO --body "updated body with [X] marks"`
       Then close: `gh issue close #XX --comment "Completed in commit $(git rev-parse --short HEAD)"`
 
-   e. **Report progress**: Output a summary table showing:
+   f. **Report progress**: Output a summary table showing:
       - Phase name and tasks completed
       - Files created/modified count
       - Issues closed (if IDD enabled)
