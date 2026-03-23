@@ -10,10 +10,17 @@
 # 方法 A: GitHub template
 gh repo create my-new-project --template PsychQuant/sdd-starter --private
 
-# 方法 B: 手動複製
+# 方法 B: 手動複製（全新專案）
 git clone https://github.com/PsychQuant/sdd-starter.git my-new-project
 cd my-new-project
 rm -rf .git && git init && git branch -m main
+
+# 方法 C: 合併到已有 .claude/ 的專案（避免嵌套）
+git clone https://github.com/PsychQuant/sdd-starter.git /tmp/sdd-starter
+rsync -a /tmp/sdd-starter/.claude/ my-existing-project/.claude/
+rsync -a /tmp/sdd-starter/.specify/ my-existing-project/.specify/
+cp /tmp/sdd-starter/CLAUDE.md my-existing-project/
+rm -rf /tmp/sdd-starter
 ```
 
 ### 2. 安裝必要的 Claude Code Plugins
