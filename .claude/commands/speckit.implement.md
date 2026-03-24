@@ -194,21 +194,21 @@ You **MUST** consider the user input before proceeding (if not empty).
 
    **If code-explorer or code-architect was NOT launched and the user did NOT explicitly approve skipping: STOP. Do NOT proceed with implementation.**
 
-7. Execute implementation following the task plan:
+8. Execute implementation following the task plan:
    - **Phase-by-phase execution**: Complete each phase before moving to the next
    - **Respect dependencies**: Run sequential tasks in order, parallel tasks [P] can run together
    - **Follow TDD approach**: Execute test tasks before their corresponding implementation tasks
    - **File-based coordination**: Tasks affecting the same files must run sequentially
    - **Validation checkpoints**: Verify each phase completion before proceeding
 
-8. Implementation execution rules:
+9. Implementation execution rules:
    - **Setup first**: Initialize project structure, dependencies, configuration
    - **Tests before code**: If you need to write tests for contracts, entities, and integration scenarios
    - **Core development**: Implement models, services, CLI commands, endpoints
    - **Integration work**: Database connections, middleware, logging, external services
    - **Polish and validation**: Unit tests, performance optimization, documentation
 
-9. **Phase completion protocol (MANDATORY after EVERY phase)**:
+10. **Phase completion protocol (MANDATORY after EVERY phase)**:
    After completing all tasks in a phase, you MUST perform these steps IN ORDER before moving to the next phase:
 
    a. **Mark tasks complete**: Update tasks.md — mark all completed tasks as `[X]`
@@ -256,7 +256,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    **Do NOT skip commits between phases.** Each phase must have its own commit for traceability.
    **Do NOT batch multiple phases into a single commit.**
 
-10. Progress tracking and error handling:
+11. Progress tracking and error handling:
    - Report progress after each completed task
    - Halt execution if any non-parallel task fails
    - For parallel tasks [P], continue with successful tasks, report failed ones
@@ -264,7 +264,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Suggest next steps if implementation cannot proceed
    - **IMPORTANT** For completed tasks, make sure to mark the task off as [X] in the tasks file.
 
-11. Completion validation:
+12. Completion validation:
    - Verify all required tasks are completed
    - Check that implemented features match the original specification
    - Validate that tests pass and coverage meets requirements
@@ -274,7 +274,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 Note: This command assumes a complete task breakdown exists in tasks.md. If tasks are incomplete or missing, suggest running `/speckit.tasks` first to regenerate the task list.
 
-12. **Check for extension hooks**: After completion validation, check if `.specify/extensions.yml` exists in the project root.
+13. **Check for extension hooks**: After completion validation, check if `.specify/extensions.yml` exists in the project root.
     - If it exists, read it and look for entries under the `hooks.after_implement` key
     - If the YAML cannot be parsed or is invalid, skip hook checking silently and continue normally
     - Filter to only hooks where `enabled: true`
